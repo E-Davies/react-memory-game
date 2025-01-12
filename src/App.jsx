@@ -22,8 +22,8 @@ export default function App() {
 
       const data = await response.json();
       let dataSample = data.slice(0, 5); // save the first 5 elements from "data".
+      console.log(getRandomIndices(data)); // once we receive the data -> log it to console
       
-      //console.log(data); // once we receive the data -> log it to console
       setEmojisData(dataSample);
       setIsGameOn(true); 
 
@@ -31,6 +31,24 @@ export default function App() {
       console.error(error.message);
     }
   }
+
+  
+  function getRandomIndices(data) {
+    
+    const randomIndicesArray = [];
+
+    for (let i = 0; i < 5; i++) {
+      let randomNum = Math.floor(Math.random() * data.length); // get a random number that is not larger that the API data array
+      if (!randomIndicesArray.includes(randomNum)){//ensure only unique numbers are added to the array
+        randomIndicesArray.push(randomNum);
+      }else{
+        i--
+      }
+    }
+    // console.log(`${randomIndicesArray}`);
+    return randomIndicesArray;
+  }
+
 
   function turnCard() {
     console.log("Memory card clicked")
