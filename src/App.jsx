@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import Form from '../components/Form'
 import MemoryCard from '../components/MemoryCard'
+// import { decodeEntity } from 'html-entities'
 
 export default function App() {
-  const [isGameOn, setIsGameOn] = useState(false)
+  const [isGameOn, setIsGameOn] = useState(false);
+  const [emojisData, setEmojisData] = useState([]);
+
+  console.log(emojisData);
 
   async function startGame(e) {
     e.preventDefault()
@@ -11,13 +15,16 @@ export default function App() {
 
     try {
       const response = await fetch(url);
-
+      
       if (!response.ok) { // error handling
         throw new Error("Could not fetch data from API");
       }
 
       const data = await response.json();
-      console.log(data); // once we receive the data -> log it to console
+      let dataSample = data.slice(0, 5); // save the first 5 elements from "data".
+      
+      //console.log(data); // once we receive the data -> log it to console
+      setEmojisData(dataSample);
       setIsGameOn(true); 
 
     } catch (error) {
@@ -33,7 +40,7 @@ export default function App() {
     <main>
       <h1>Memory</h1>
       {!isGameOn && <Form handleSubmit={startGame} />}
-      {isGameOn && <MemoryCard handleClick={turnCard} />}
+      {isGameOn && <MemoryCard handleClick={turnCard} data={emojisData} />}
     </main>
   )
 }
