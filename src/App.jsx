@@ -21,15 +21,22 @@ export default function App() {
       }
 
       const data = await response.json();
-      let dataSample = data.slice(0, 5); // save the first 5 elements from "data".
-      console.log(getRandomIndices(data)); // once we receive the data -> log it to console
+      const dataSlice = getDataSlice(data); // save 5 random elements from "data".
       
-      setEmojisData(dataSample);
+      setEmojisData(dataSlice);
       setIsGameOn(true); 
 
     } catch (error) {
       console.error(error.message);
     }
+  }
+
+  function getDataSlice(data){
+    const randomIndices = getRandomIndices(data);
+
+    const dataSlice = randomIndices.map(index => data[index])
+
+    return dataSlice;
   }
 
   
