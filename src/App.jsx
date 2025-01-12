@@ -22,8 +22,9 @@ export default function App() {
 
       const data = await response.json();
       const dataSlice = getDataSlice(data); // save 5 random elements from "data".
+      const emojisArray = getEmojisArray(dataSlice)
       
-      setEmojisData(dataSlice);
+      setEmojisData(emojisArray);
       setIsGameOn(true); 
 
     } catch (error) {
@@ -54,6 +55,22 @@ export default function App() {
     }
     // console.log(`${randomIndicesArray}`);
     return randomIndicesArray;
+  }
+
+  function getEmojisArray(data) {
+    //make an arr with double the emojis in so that we have pairs to use in the game
+    const pairedEmojisArray = [...data, ...data];
+
+    // Use the Fisher-Yates algorithm to shuffle array
+    for (let i = pairedEmojisArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const temp = pairedEmojisArray[i]
+      pairedEmojisArray[i] = pairedEmojisArray[j]
+      pairedEmojisArray[j] = temp
+    }
+
+    return pairedEmojisArray;
+
   }
 
 
